@@ -20,4 +20,4 @@ Các bài toán này này không chứa lý thuyết suông. Mọi dự án ở 
 
 ## 📺 Video Hướng dẫn
 Mỗi dự án đều có video giải thích chi tiết tại: 
-👉 [Link Kênh YouTube của tôi](https://www.youtube.com/@Electronics-GocnhinNguoidilam)
+👉 [Link Kênh YouTube ](https://www.youtube.com/@Electronics-GocnhinNguoidilam)
