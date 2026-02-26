@@ -25,7 +25,8 @@ Vì vậy, các project ở đây được thiết kế theo tiêu chí:
 ✅ Có sơ đồ nguyên lý  
 ✅ Có video giải thích rõ ràng  
 ✅ Có thể thực hành lại được, chắc chắn chạy 
-Không có phần “giữ lại”.
+
+-Không có phần “giữ lại”.
 ---
 
 ## 📂 14 Bài toán PLC nền tảng dùng Siemens S7-200
