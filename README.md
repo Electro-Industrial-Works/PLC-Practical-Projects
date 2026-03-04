@@ -46,7 +46,7 @@ Các bài toán PLC trên GitHub được chia theo từng thư mục:
   > Các nội dung từng bài toán sẽ được cập nhật lên tục theo thời gian.
 ---
 
-** Mã chương trình và tài liệu 14 bài toán trên GitHub:** 
+**Mã chương trình và tài liệu 14 bài toán trên GitHub**
 
 👉 https://github.com/Electro-Industrial-Works/PLC-Practical-Projects
 
