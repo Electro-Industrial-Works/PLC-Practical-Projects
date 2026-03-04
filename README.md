@@ -46,11 +46,11 @@ Các bài toán PLC trên GitHub được chia theo từng thư mục:
   > Các nội dung từng bài toán sẽ được cập nhật lên tục theo thời gian.
 ---
 
-Mã chương trình và tài liệu 14 bài toán trên GitHub:
+** Mã chương trình và tài liệu 14 bài toán trên GitHub:** 
 
 👉 https://github.com/Electro-Industrial-Works/PLC-Practical-Projects
 
-
+---
 ## 📘 Sắp phát hành tập 1 cuốn tài liệu: "PLC Thực Chiến-Thiết kế hệ thống điều khiển tự động dùng PLC theo chuẩn công nghiệp "
 Nếu các project ở đây giúp bạn **làm cho máy chạy**,  thì cuốn tài liệu sắp ra mắt sẽ giúp bạn:
 - Thiết kế hệ thống theo chuẩn công nghiệp
