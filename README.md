@@ -94,7 +94,9 @@ PLC không quá khó.
 Cái khó là:
 - Giữ cho hệ thống ổn định
 - Hiểu vì sao nó lỗi
-- Và biết cách sửa trong áp lực thực tế
+- Biết cách sửa trong áp lực thực tế
+- Biết cách thiết kế và lập trình theo đúng **THỰC TẾ-CHUẨN CÔNG NGHIỆP**, không lý thuyết suông
+- Đáp ứng đúng các yêu cầu của chủ đầu tư.
 
 Chúng tôi hy vọng những chia sẻ ở đây giúp bạn tiến nhanh hơn con đường chúng tôi đã đi qua.
 
