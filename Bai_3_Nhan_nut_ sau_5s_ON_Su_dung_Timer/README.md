@@ -1,136 +1,244 @@
-Bài 3 – Nhấn nút → sau 5 giây mới bật (ON Delay Timer – TON)
-1. Giới thiệu (Overview)
+# ⚡ Bài 3 – Nhấn nút → Sau 5 giây mới bật (ON Delay Timer – TON)
 
-Bài 3 giới thiệu kỹ thuật định thời bằng bộ hẹn giờ TON (ON Delay Timer), dùng khi thiết bị chỉ được bật sau khi tín hiệu đầu vào duy trì đủ thời gian.
+> PLC Practical Projects Series
+> Siemens S7-200 PLC Ladder Logic
+
+---
+
+# 📘 Giới thiệu (Overview)
+
+Bài 3 giới thiệu kỹ thuật định thời bằng bộ hẹn giờ **TON (ON Delay Timer)**, dùng khi thiết bị chỉ được bật sau khi tín hiệu đầu vào duy trì đủ thời gian.
 
 Đây là chức năng cực kỳ phổ biến trong hệ thống công nghiệp, nơi thiết bị cần:
 
-khởi động theo thứ tự,
-ổn định trước khi chạy,
-hoặc tránh kích hoạt ngoài ý muốn.
+✅ Khởi động theo thứ tự
+✅ Chờ ổn định trước khi chạy
+✅ Tránh kích hoạt ngoài ý muốn
+✅ Delay startup cho motor/quạt/bơm
 
-Ví dụ thực tế:
+---
 
-Bơm dầu bôi trơn chạy trước → sau vài giây mới cho motor chính chạy.
-Quạt gió chạy trước khi cấp nhiệt.
-Delay startup trong hệ thống băng tải hoặc HVAC.
-2. Mục tiêu bài học (Learning Objectives)
+# 🏭 Ứng dụng thực tế
+
+Ví dụ trong công nghiệp:
+
+* Bơm dầu bôi trơn chạy trước → sau vài giây mới cho motor chính chạy
+* Quạt gió chạy trước heater
+* Delay startup trong hệ thống HVAC
+* Khởi động tuần tự băng tải
+* Delay kích hoạt relay công suất lớn
+
+---
+
+# 🎯 Mục tiêu bài học (Learning Objectives)
 
 Sau bài này, bạn sẽ hiểu cách:
 
-✅ Sử dụng Timer TON trong PLC S7-200
-✅ Tạo logic trễ bật (ON Delay)
-✅ Reset timer khi nhả nút hoặc STOP tác động
-✅ Tổ chức Ladder bằng nhiều Network rõ ràng
-✅ Hiểu cơ chế hoạt động:
+* ✅ Sử dụng Timer TON trong PLC S7-200
+* ✅ Tạo logic trễ bật (ON Delay)
+* ✅ Reset timer khi nhả nút
+* ✅ Dừng hệ thống bằng STOP ưu tiên cao nhất
+* ✅ Tổ chức Ladder Logic bằng nhiều Network rõ ràng
+* ✅ Hiểu cơ chế:
 
-IN
-PT
-ET
-Q
+  * IN
+  * PT
+  * ET
+  * Q
 
-✅ Ứng dụng Timer trong hệ thống startup tuần tự công nghiệp
+---
 
-3. Mô tả bài toán (Problem Description)
+# 🧠 Mô tả bài toán (Problem Description)
 
 Hệ thống sử dụng:
 
-1 nút START
-1 nút STOP
-1 Timer TON 5 giây
-1 ngõ ra đèn/motor
+| Thiết bị | Chức năng            |
+| -------- | -------------------- |
+| START    | Yêu cầu bật hệ thống |
+| STOP     | Dừng ngay lập tức    |
+| TON T37  | Delay 5 giây         |
+| Q0.0     | Đèn / Motor Output   |
 
-Nguyên tắc hoạt động:
+---
 
-Người vận hành phải giữ START liên tục đủ 5 giây.
-Sau khi Timer hoàn tất:
-→ PLC mới bật Q0.0.
-Nếu thả START trước 5 giây:
-→ Timer reset ngay.
-→ Q0.0 không được bật.
-STOP luôn có ưu tiên cao nhất:
-→ tắt hệ thống ngay lập tức.
-4. Thiết bị sử dụng
-Thiết bị	Địa chỉ	Loại
-START Push Button	I0.0	NO
-STOP Push Button	I0.1	NC
-TON Timer	T37	TON
-Output Lamp / Motor	Q0.0	BOOL
-5. Nguyên lý hoạt động (Operating Principle)
-5.1 Điều kiện kích hoạt Timer
+## ⚙ Nguyên tắc hoạt động
+
+* Người vận hành phải giữ START liên tục đủ 5 giây
+* Sau khi Timer hoàn tất:
+  → PLC mới bật Q0.0
+* Nếu nhả START trước 5 giây:
+  → Timer reset ngay
+  → Q0.0 không bật
+* STOP luôn có ưu tiên cao nhất
+
+---
+
+# 🔄 Nguyên lý hoạt động (Operating Principle)
+
+## 1️⃣ Điều kiện kích hoạt Timer
 
 Khi:
 
-START = 1
-STOP = 1
+* START = 1
+* STOP = 1
 
 → PLC kích hoạt Timer TON T37.
 
-5.2 Timer đếm 5 giây
-T37 bắt đầu đếm.
-PT = 5s.
-ET tăng dần tới PT.
-5.3 Đủ thời gian → bật ngõ ra
+---
 
-Nếu START được giữ đủ 5 giây:
+## 2️⃣ Timer đếm đủ 5 giây
 
-→ T37.Q = 1
-→ PLC bật Q0.0.
+* Timer bắt đầu đếm
+* PT = 5s
+* ET tăng dần tới PT
 
-5.4 Nhả START trước thời gian
+---
 
-Nếu người vận hành:
+## 3️⃣ Đủ thời gian → bật Output
 
-nhả START trước 5 giây
+Nếu START được giữ liên tục đủ 5 giây:
 
-→ Timer reset ngay
-→ ET trở về 0
-→ Q0.0 không bật.
+```text id="x7r1cq"
+T37.Q = 1
+```
 
-Điều này giúp tránh kích hoạt ngoài ý muốn.
+→ PLC bật:
 
-5.5 STOP ưu tiên cao nhất
+```text id="eq4qaf"
+Q0.0
+```
+
+---
+
+## 4️⃣ Nhả START trước thời gian
+
+Nếu START bị thả trước khi đủ 5 giây:
+
+* Timer reset ngay
+* ET trở về 0
+* Output không bật
+
+✅ Giúp tránh kích hoạt ngoài ý muốn.
+
+---
+
+## 5️⃣ STOP ưu tiên cao nhất
 
 Nếu STOP bị nhấn:
 
-→ PLC reset Timer
-→ Tắt Q0.0 ngay lập tức.
+```text id="qjlwmk"
+I0.1 = 0
+```
 
-Đây là nguyên tắc an toàn cơ bản trong hệ thống công nghiệp.
+→ PLC tắt hệ thống ngay lập tức.
 
-6. Bảng I/O và vùng nhớ sử dụng
-Tên biến	Địa chỉ	Kiểu	Ghi chú
-PB_START	I0.0	BOOL	Nút Start
-PB_STOP_NC	I0.1	BOOL	Nút Stop NC
-DEBOUNCE_30ms (optional)	T32	TON	Lọc dội nút
-T_ON_5S	T37	TON	Trễ bật 5 giây
-LAMP_OUT	Q0.0	BOOL	Đèn / Motor Output
-7. Logic Ladder
-Network 1 – Timer TON
-START và STOP điều khiển Timer T37.
-PT = 5s.
-Network 2 – Output Control
-Khi T37.Q = 1
-→ bật Q0.0.
-8. Ứng dụng thực tế
+⚠ Đây là nguyên tắc an toàn rất quan trọng trong PLC công nghiệp.
 
-Kỹ thuật TON được sử dụng rất nhiều trong:
+---
 
-Startup tuần tự
-Delay motor
-Delay quạt
-Delay heater
-HVAC
-Conveyor system
-Pump sequencing
-9. File dự án
+# 🧩 Bảng I/O và vùng nhớ sử dụng
+
+| Tên biến                   | Địa chỉ | Kiểu | Ghi chú             |
+| -------------------------- | ------- | ---- | ------------------- |
+| PB_START                   | I0.0    | BOOL | Nút START           |
+| PB_STOP_NC                 | I0.1    | BOOL | STOP NC             |
+| DEBOUNCE_30ms *(optional)* | T32     | TON  | Lọc dội nút         |
+| T_ON_5S                    | T37     | TON  | Delay ON 5 giây     |
+| LAMP_OUT                   | Q0.0    | BOOL | Output Lamp / Motor |
+
+---
+
+# 🪜 Cấu trúc Ladder Logic
+
+## 🔹 Network 1 – Timer TON
+
+* START + STOP điều khiển Timer T37
+* PT = 5s
+
+---
+
+## 🔹 Network 2 – Output Control
+
+Khi:
+
+```text id="50e1ji"
+T37.Q = 1
+```
+
+→ bật:
+
+```text id="teew67"
+Q0.0
+```
+
+---
+
+# 📂 File dự án
+
+```text id="8r1vzz"
 Vol1_Proj03_LAD_01_ON_DELAY.mwp
-10. Kỹ năng đạt được
+```
+
+---
+
+# 🛠 Kỹ năng đạt được
 
 Sau bài này, bạn có thể:
 
 ✅ Thiết kế logic delay startup
-✅ Sử dụng Timer TON đúng chuẩn
-✅ Viết Ladder có cấu trúc rõ ràng
-✅ Hiểu timer trong PLC công nghiệp
-✅ Ứng dụng delay trong hệ thống thực tế
+✅ Sử dụng TON chuẩn công nghiệp
+✅ Viết Ladder Logic rõ ràng
+✅ Hiểu nguyên lý Timer trong PLC
+✅ Ứng dụng startup tuần tự thực tế
+
+---
+
+# 🚀 Gợi ý mở rộng
+
+Bạn có thể mở rộng bài này bằng:
+
+* TOF (OFF Delay Timer)
+* TP (Pulse Timer)
+* Delay nhiều motor
+* Alarm Delay
+* Startup sequence
+* Auto start system
+
+---
+
+# 🖼 Demo / Hình ảnh
+
+📌 Có thể bổ sung:
+
+* Hình Ladder Logic
+* GIF mô phỏng Timer
+* Thumbnail bài học
+* Video demo thực tế
+
+để repository trực quan và chuyên nghiệp hơn.
+
+---
+
+# 📚 Series PLC Practical Projects
+
+Repository này thuộc series thực hành PLC:
+
+* PLC cơ bản
+* Timer / Counter
+* Motor Control
+* Alarm System
+* Industrial Logic
+* Startup Sequence
+* Multi-Motor Control
+
+---
+
+# ⭐ Nếu project hữu ích
+
+Hãy:
+
+* ⭐ Star repository
+* 🍴 Fork project
+* 📢 Chia sẻ cho cộng đồng PLC
+
+để hỗ trợ phát triển thêm nhiều bài thực hành thực tế hơn 🚀
