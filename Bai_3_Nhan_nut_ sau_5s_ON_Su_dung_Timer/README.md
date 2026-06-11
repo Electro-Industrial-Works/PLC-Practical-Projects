@@ -178,6 +178,7 @@ Q0.0
 ```text id="8r1vzz"
 Vol1_Proj03_LAD_01_ON_DELAY.mwp
 ```
+<img width="751" height="577" alt="image" src="https://github.com/user-attachments/assets/11453cb1-5017-46f4-9d43-e4da6a6ff355" />
 
 ---
 
