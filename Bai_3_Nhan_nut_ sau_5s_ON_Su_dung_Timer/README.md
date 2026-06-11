@@ -206,22 +206,9 @@ Bạn có thể mở rộng bài này bằng:
 
 ---
 
-# 🖼 Demo / Hình ảnh
-
-📌 Có thể bổ sung:
-
-* Hình Ladder Logic
-* GIF mô phỏng Timer
-* Thumbnail bài học
-* Video demo thực tế
-
-để repository trực quan và chuyên nghiệp hơn.
-
----
-
 # 📚 Series PLC Practical Projects
 
-Repository này thuộc series thực hành PLC:
+Repository này thuộc series thực hành PLC trong tài liệu: PLC THỰC CHIẾN -HƯỚNG DẪN THIẾT KÊ HỆ THỐNG TỰ ĐỘNG ĐIỀU KHIỂN THEO CHUẨN CÔNG NGHIỆP":
 
 * PLC cơ bản
 * Timer / Counter
@@ -230,6 +217,7 @@ Repository này thuộc series thực hành PLC:
 * Industrial Logic
 * Startup Sequence
 * Multi-Motor Control
+* 14 bài toán chuẩn công nghiệp
 
 ---
 
@@ -241,4 +229,4 @@ Hãy:
 * 🍴 Fork project
 * 📢 Chia sẻ cho cộng đồng PLC
 
-để hỗ trợ phát triển thêm nhiều bài thực hành thực tế hơn 🚀
+để cùng nhau chia sẻ thêm nhiều bài toán thực tế trong các nhà máy  🚀
