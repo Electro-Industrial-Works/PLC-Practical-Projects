@@ -53,7 +53,7 @@ Các bài toán PLC trên GitHub được chia theo từng thư mục:
 👉 https://github.com/Electro-Industrial-Works/PLC-Practical-Projects
 
 ---
-## 📘 Sắp phát hành tập 1 cuốn tài liệu: "PLC Thực Chiến-Thiết kế hệ thống điều khiển tự động dùng PLC theo chuẩn công nghiệp "
+## 📘 Sắp hoàn thiện tập 1 cuốn tài liệu: "PLC Thực Chiến-Thiết kế hệ thống điều khiển tự động dùng PLC theo chuẩn công nghiệp "
 Nếu các project ở đây giúp bạn **làm cho máy chạy**,  thì cuốn tài liệu sắp ra mắt sẽ giúp bạn:
 - Thiết kế hệ thống theo chuẩn công nghiệp
 - Đấu nối chống nhiễu đúng cách
