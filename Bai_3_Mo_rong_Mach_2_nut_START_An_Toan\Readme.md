@@ -240,6 +240,7 @@ Nếu STOP OFF:
 ```text
 Reset M0.0
 ```
+<img width="875" height="442" alt="image" src="https://github.com/user-attachments/assets/fc16eb0d-18df-4c67-bd7d-991473ba94fc" />
 
 ---
 
@@ -266,7 +267,7 @@ Bài này mô phỏng cấu trúc rất phổ biến trong:
 # 📂 File dự án
 
 ```text
-Vol1_Proj03_Extended_Latch_Countdown.mwp
+Vol1_Proj03Ex_LAD_03_delay_on.mwp
 ```
 
 ---
