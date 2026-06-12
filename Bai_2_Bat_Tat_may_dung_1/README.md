@@ -133,3 +133,12 @@ Giữ nút = không có xung mới → đèn không nhấp nháy.
 ---
 
 ⚠ Trong quá trình thực hành, có thể bổ sung biến nhớ nếu cần để hoàn thiện logic điều khiển.
+---
+# 🪜 Ladder Logic
+
+<img width="728" height="365" alt="image" src="https://github.com/user-attachments/assets/b8ff33fb-ae5e-41dd-a7df-165ec705ac58" />
+
+<img width="733" height="582" alt="image" src="https://github.com/user-attachments/assets/c4439d21-ee3a-4df6-8630-11ee3b84cc7a" />
+
+
+
