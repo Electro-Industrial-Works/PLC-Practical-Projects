@@ -414,7 +414,8 @@ Bài này mô phỏng logic thường gặp trong:
 # 📂 File dự án
 
 ```text id="r6v2pk"
-Vol1_Proj06_Dual_Motor_Alarm_ACK.mwp
+
+Vol1_Proj06Ex_LAD_06_interlock..mwp
 ```
 
 ---
