@@ -208,47 +208,10 @@ Nếu START bị thả trước khi Timer hoàn tất:
 
 ---
 
-# 🪜 Cấu trúc Ladder Logic
+# 🪜 Ladder Logic
 
-## 🔹 Network 1 – Timer TON
 
-* START + STOP điều khiển T37
-* PT lấy từ VW120
-
----
-
-## 🔹 Network 2 – RUN Latch
-
-Khi:
-
-```text
-T37 = 1
-```
-
-→ Set:
-
-```text
-M0.0
-```
-
----
-
-## 🔹 Network 3 – STOP Reset
-
-Nếu STOP OFF:
-
-```text
-Reset M0.0
-```
 <img width="875" height="442" alt="image" src="https://github.com/user-attachments/assets/fc16eb0d-18df-4c67-bd7d-991473ba94fc" />
-
----
-
-## 🔹 Network 4 – Countdown Lamp
-
-```text
-Q0.1 = SM0.5 AND IN AND NOT T37
-```
 
 ---
 
@@ -295,19 +258,6 @@ Bạn có thể mở rộng thêm:
 * Safety interlock
 * Auto shutdown timer
 * Multi-device startup sequence
-
----
-
-# 🖼 Demo / Hình ảnh
-
-📌 Khuyến nghị bổ sung:
-
-* Hình Ladder Logic
-* GIF countdown
-* Video mô phỏng
-* Hình HMI nhập PT
-
-để repository trực quan và chuyên nghiệp hơn.
 
 ---
 
