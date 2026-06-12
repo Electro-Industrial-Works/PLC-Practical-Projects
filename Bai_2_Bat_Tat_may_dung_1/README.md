@@ -1,144 +1,344 @@
-# Bài 2 – Bật/Tắt thiết bị bằng 1 nút (Toggle Control)
+# ⚡ Bài 2 – Bật/Tắt thiết bị bằng 1 nút (Toggle Control)
 
-## 1 Giới thiệu (Overview)
-
-Bài 2 giới thiệu kỹ thuật bật/tắt thiết bị bằng **một nút duy nhất** (*toggle control*). Đây là kiểu điều khiển cực kỳ phổ biến trong thực tế: bật/tắt đèn, relay, motor nhỏ, hoặc các chức năng ON/OFF đơn giản trên bảng điều khiển.
-
-Điểm quan trọng của bài này là: nếu chỉ dùng trực tiếp trạng thái nút nhấn, khi người vận hành giữ nút lâu, ngõ ra có thể bị **đảo liên tục** theo chu kỳ quét của PLC. Vì vậy, bài này sử dụng:
-
-- Phát hiện cạnh (*one-shot*)
-- Bit nhớ trạng thái  
-
-để đảm bảo: **mỗi lần nhấn chỉ được tính một lần**.
-
-Đây là kỹ thuật nền tảng khi xử lý nút nhấn trong PLC vì giúp chương trình:
-- Ổn định  
-- Dễ mở rộng  
-- Dễ kiểm thử  
+> PLC Practical Projects Series
+> Siemens S7-200 PLC Ladder Logic
 
 ---
 
-## 2 Mục tiêu (Learning Objectives)
+# 📘 Giới thiệu (Overview)
 
-Sau khi hoàn thành bài này, người học có thể:
+Bài 2 giới thiệu kỹ thuật:
 
-- Điều khiển ON/OFF bằng một nút duy nhất (I0.0)  
-- Sử dụng **one-shot** để phát hiện cạnh nhấn (rising edge)  
-- Lưu trạng thái đèn vào bit nhớ trung gian (M) thay vì ghi trực tiếp ra Q  
-- Đảm bảo giữ nút không làm đèn đảo trạng thái liên tục  
-- Tách logic trạng thái (M0.0) và ngõ ra thực (Q0.0)
+* Bật/Tắt thiết bị bằng một nút duy nhất (Toggle Control)
+* Phát hiện cạnh nhấn (ONE-SHOT)
+* Lưu trạng thái bằng bit nhớ trung gian (M-bit)
 
----
+Đây là kiểu điều khiển cực kỳ phổ biến trong công nghiệp và hệ thống điều khiển thực tế:
 
-## 3 Mô tả bài toán (Problem Description)
-
-Hệ thống chỉ có một nút nhấn dùng để điều khiển bật/tắt đèn.  
-Mỗi lần nhấn, đèn phải đổi trạng thái:
-
-- Đèn đang **tắt → bật**
-- Đèn đang **bật → tắt**
-
-Trạng thái đèn được lưu vào bit nhớ trung gian **M0.0**, và chỉ xuất ra **Q0.0** sau khi xử lý logic.
-
-Để tránh việc giữ nút gây nhấp nháy, PLC sử dụng kỹ thuật **one-shot (xung 1 scan)** dựa trên việc ghi nhớ trạng thái cũ của nút (**M1.0**).
+* Đèn ON/OFF
+* Relay
+* Motor nhỏ
+* Nút chức năng trên HMI
+* Push button điều khiển máy
 
 ---
 
-## 4 Phân tích bài toán & hình thành chương trình LAD
+## ⚠ Vấn đề thực tế
 
-### Bước 1: Mỗi lần nhấn → đổi trạng thái
+PLC quét chương trình liên tục theo chu kỳ scan.
 
-Đây không phải điều khiển giữ nút, mà là:
+Nếu sử dụng trực tiếp:
 
-> Nhấn một lần → đổi trạng thái một lần
+```text id="uk3xv8"
+I0.0
+```
 
----
+để đảo trạng thái:
 
-### Bước 2: Tạo tín hiệu nhấn hợp lệ bằng phát hiện cạnh (One-shot)
+→ Khi người vận hành giữ nút lâu, ngõ ra có thể:
 
-PLC quét liên tục. Nếu người vận hành giữ nút, I0.0 sẽ giữ mức 1 trong nhiều scan.
-
-Nếu dùng trực tiếp I0.0 → đèn có thể đảo liên tục.
-
-Giải pháp:
-- Phát hiện cạnh lên (0 → 1)
-- Tạo xung tồn tại đúng 1 scan (**ONE_SHOT**)
+❌ Bật/Tắt liên tục
+❌ Nhấp nháy theo scan PLC
+❌ Hoạt động không ổn định
 
 ---
 
-### Bước 3: Dùng bit nhớ giữ trạng thái
+## ✅ Giải pháp của bài
 
-Đèn phải nhớ trạng thái hiện tại.
+Bài này sử dụng:
 
-Dùng bit nhớ:
+* ONE-SHOT (xung 1 scan)
+* Bit nhớ trạng thái (M-bit)
 
+để bảo đảm:
 
-Tách khỏi Q giúp:
-- Dễ kiểm tra logic
-- Dễ mở rộng (Auto/Manual, khóa an toàn…)
-
----
-
-### Bước 4: Toggle trạng thái và xuất ra Q
-
-Khi có ONE_SHOT:
-- Đảo M0.0 (0 ↔ 1)
-
-Sau đó:
-Q0.0 = M0.0
+✅ Mỗi lần nhấn chỉ được tính đúng 1 lần.
 
 ---
 
-## 5 Nguyên lý hoạt động (Operating Principle)
+# 🏭 Ứng dụng thực tế
 
-### 1️⃣ Phát hiện cạnh lên để tạo ONE-SHOT
+Ví dụ trong công nghiệp:
 
-Khi I0.0 chuyển từ 0 → 1 → PLC tạo xung **ONE_SHOT (M0.5)** tồn tại 1 chu kỳ quét.
-
----
-
-### 2️⃣ Toggle trạng thái đèn
-
-Khi ONE_SHOT = 1 → PLC đảo M0.0.
-
----
-
-### 3️⃣ Xuất ra ngõ ra thực
-
-Q0.0 = M0.0
----
-
-### 4️⃣ Ghi nhớ trạng thái nút ở chu kỳ trước
-
-PLC dùng **M1.0** để lưu trạng thái I0.0 của scan trước → phục vụ phát hiện cạnh.
+* Nút bật/tắt đèn
+* Toggle relay
+* Điều khiển quạt nhỏ
+* Nút chế độ Auto/Manual
+* Push button trên operator panel
+* Điều khiển ON/OFF bằng 1 nút
 
 ---
 
-### 5️⃣ Giữ nút không làm đèn đổi liên tục
+# 🎯 Mục tiêu bài học (Learning Objectives)
 
-Giữ nút = không có xung mới → đèn không nhấp nháy.
+Sau bài này, bạn sẽ hiểu cách:
 
----
-
-## 6 Bảng I/O và vùng nhớ
-
-| Tên | Địa chỉ | Kiểu | Ghi chú |
-|------|---------|------|--------|
-| PB_LOCAL | I0.0 | BOOL | Nút bấm (NO) |
-| LAMP_STATE | M0.0 | BOOL | Trạng thái đèn |
-| ONE_SHOT | M0.5 | BOOL | Xung 1 scan |
-| PB_PREV | M1.0 | BOOL | Trạng thái nút chu kỳ trước |
-| LAMP | Q0.0 | BOOL | Đèn ra |
+* ✅ Điều khiển ON/OFF bằng một nút duy nhất
+* ✅ Tạo ONE-SHOT để phát hiện cạnh lên
+* ✅ Lưu trạng thái bằng bit nhớ trung gian
+* ✅ Chống việc giữ nút gây đổi trạng thái liên tục
+* ✅ Tách logic trạng thái khỏi output thực tế
+* ✅ Viết Toggle Logic theo chuẩn công nghiệp
 
 ---
 
-⚠ Trong quá trình thực hành, có thể bổ sung biến nhớ nếu cần để hoàn thiện logic điều khiển.
+# 🧠 Mô tả bài toán (Problem Description)
+
+Hệ thống chỉ sử dụng:
+
+* 1 nút nhấn
+* 1 đèn đầu ra
+
+Mỗi lần nhấn:
+
+| Trạng thái hiện tại | Trạng thái sau khi nhấn |
+| ------------------- | ----------------------- |
+| OFF                 | ON                      |
+| ON                  | OFF                     |
+
+→ Hệ thống hoạt động theo nguyên tắc:
+
+```text id="bc6u2p"
+Nhấn một lần → đổi trạng thái một lần
+```
+
 ---
+
+# ⚙ Cấu trúc xử lý của bài
+
+Hệ thống được chia thành 4 bước:
+
+| Bước | Chức năng               |
+| ---- | ----------------------- |
+| 1    | Phát hiện cạnh nhấn     |
+| 2    | Tạo ONE-SHOT            |
+| 3    | Toggle trạng thái       |
+| 4    | Xuất trạng thái ra Q0.0 |
+
+---
+
+# 🔄 Nguyên lý hoạt động (Operating Principle)
+
+## 1️⃣ Phát hiện cạnh lên (Rising Edge Detection)
+
+PLC so sánh:
+
+* trạng thái hiện tại của nút
+* trạng thái ở scan trước
+
+Khi:
+
+```text id="7xq2jf"
+I0.0 : 0 → 1
+```
+
+→ PLC tạo:
+
+```text id="x2f5ru"
+ONE_SHOT (M0.5)
+```
+
+---
+
+## ✅ Ý nghĩa
+
+ONE_SHOT chỉ tồn tại:
+
+* đúng 1 chu kỳ quét (1 scan)
+
+→ dù người vận hành giữ nút lâu:
+
+PLC vẫn chỉ xử lý:
+
+* đúng 1 lần nhấn
+
+---
+
+# 2️⃣ Toggle trạng thái đèn
+
+Khi:
+
+```text id="r6v1mq"
+ONE_SHOT = 1
+```
+
+PLC sẽ đảo trạng thái:
+
+```text id="z8u5qn"
+M0.0
+```
+
+---
+
+## Logic Toggle
+
+| Trạng thái cũ | Trạng thái mới |
+| ------------- | -------------- |
+| 0             | 1              |
+| 1             | 0              |
+
+---
+
+# 3️⃣ Xuất ra ngõ ra thực
+
+Ngõ ra thực tế:
+
+```text id="u0w8pk"
+Q0.0
+```
+
+luôn bám theo:
+
+```text id="r4k7xb"
+M0.0
+```
+
+---
+
+## ✅ Ý nghĩa
+
+Việc tách:
+
+* Logic State
+* Physical Output
+
+giúp chương trình:
+
+* dễ mở rộng
+* dễ debug
+* đúng chuẩn công nghiệp
+
+---
+
+# 4️⃣ Ghi nhớ trạng thái nút scan trước
+
+PLC sử dụng:
+
+```text id="g5p9yh"
+M1.0
+```
+
+để lưu trạng thái cũ của nút nhấn.
+
+---
+
+## ✅ Mục đích
+
+Phục vụ:
+
+* Rising Edge Detection
+* ONE-SHOT Generation
+
+---
+
+# 5️⃣ Giữ nút không làm đèn đổi liên tục
+
+Nếu người vận hành:
+
+* giữ nút lâu
+
+→ sẽ không xuất hiện cạnh mới.
+
+→ PLC không tạo ONE_SHOT mới.
+
+→ đèn không bị nhấp nháy liên tục.
+
+---
+
+# 🧩 Bảng I/O và vùng nhớ sử dụng
+
+| Tên biến   | Địa chỉ | Kiểu | Ghi chú               |
+| ---------- | ------- | ---- | --------------------- |
+| PB_LOCAL   | I0.0    | BOOL | Nút nhấn              |
+| LAMP_STATE | M0.0    | BOOL | Trạng thái đèn        |
+| ONE_SHOT   | M0.5    | BOOL | Xung 1 scan           |
+| PB_PREV    | M1.0    | BOOL | Trạng thái scan trước |
+| LAMP       | Q0.0    | BOOL | Đèn output            |
+
+> ⚠ Trong quá trình thực hành, có thể bổ sung thêm biến nhớ để mở rộng logic điều khiển.
+
+---
+
 # 🪜 Ladder Logic
 
 <img width="728" height="365" alt="image" src="https://github.com/user-attachments/assets/b8ff33fb-ae5e-41dd-a7df-165ec705ac58" />
 
 <img width="733" height="582" alt="image" src="https://github.com/user-attachments/assets/c4439d21-ee3a-4df6-8630-11ee3b84cc7a" />
+---
+
+# 🏗 Cấu trúc điều khiển công nghiệp
+
+Bài này mô phỏng logic rất phổ biến trong:
+
+* Toggle Control
+* Push Button Interface
+* Operator Panel
+* Human Machine Interaction
+* Relay Toggle System
+
+---
+
+# 📂 File dự án
+
+
+<img width="331" height="68" alt="image" src="https://github.com/user-attachments/assets/249ebad5-556d-437b-ab77-ef645681f47c" />
+
+---
+
+# 🛠 Kỹ năng đạt được
+
+Sau bài này, bạn có thể:
+
+* ✅ Viết Toggle Logic chuẩn
+* ✅ Tạo ONE-SHOT
+* ✅ Phát hiện cạnh lên
+* ✅ Tách Logic và Output
+* ✅ Chống giữ nút gây lỗi
+* ✅ Viết Ladder Logic ổn định hơn
+
+---
+
+# 🚀 Gợi ý mở rộng
+
+Bạn có thể mở rộng thêm:
+
+* Debounce Filtering
+* Double-click detection
+* Long press detection
+* Toggle nhiều output
+* HMI push button
+* Lockout chống nhấn nhanh
+
+---
+
+
+# 📚 PLC Practical Projects Series
+
+Series bao gồm:
+
+* Start/Stop
+* Timer
+* Counter
+* Toggle Logic
+* Debounce
+* One-Shot
+* Alarm System
+* Industrial Automation
+
+---
+
+# ⭐ Nếu project hữu ích
+
+Hãy:
+
+* ⭐ Star repository
+* 🍴 Fork project
+* 📢 Chia sẻ cho cộng đồng PLC
+
+để hỗ trợ phát triển thêm nhiều project PLC thực tế 🚀
+
+---
+
 
 
 
