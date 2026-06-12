@@ -260,8 +260,7 @@ Bài này mô phỏng logic rất phổ biến trong:
 
 # 📂 File dự án
 
-```text id="a8x6jw"
-<img width="348" height="110" alt="image" src="https://github.com/user-attachments/assets/bfd5e7f3-dcc5-468e-90bc-01c04ec1199a" />
+<img width="358" height="113" alt="image" src="https://github.com/user-attachments/assets/fffd443e-ff87-4b2e-895d-be083d262e58" />
 
 ---
 
