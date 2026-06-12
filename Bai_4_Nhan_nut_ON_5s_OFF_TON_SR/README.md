@@ -212,7 +212,7 @@ Bài này mô phỏng cấu trúc phổ biến trong:
 # 📂 File dự án
 
 ```text
-Vol1_Proj04_Pulse_Timer_SR_RS.mwp
+Vol1_Proj04_LAD_04_pulse_5s_A.mwp
 ```
 
 ---
