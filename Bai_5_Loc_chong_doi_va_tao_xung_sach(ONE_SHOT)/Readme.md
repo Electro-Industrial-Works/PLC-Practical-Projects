@@ -3,6 +3,8 @@
 > PLC Practical Projects Series
 > Siemens S7-200 PLC Ladder Logic
 
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/1d2a4b7f-3920-4952-82da-1e3dc390f307" />
+
 ---
 
 # 📘 Giới thiệu (Overview)
