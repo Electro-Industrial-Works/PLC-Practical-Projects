@@ -25,7 +25,7 @@ Vì vậy, các project ở đây được thiết kế theo tiêu chí:
 ✅ Có đầy đủ logic  
 ✅ Có sơ đồ nguyên lý  
 ✅ Có video giải thích rõ ràng  
-✅ Có thể thực hành lại được, chắc chắn chạy 
+✅ Có thể thực hành lại được 
 ✅ Chắc chắn chạy
 
 -Không có phần “giữ lại”.
