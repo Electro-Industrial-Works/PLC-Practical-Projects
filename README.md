@@ -2,7 +2,7 @@
 
 Xin chào các bạn,
 
-Trong môi trường công nghiệp thực tế nơi mọi thứ không chỉ là “chạy được”, mà phải **chạy ổn định, an toàn và bàn giao được**.
+Trong môi trường công nghiệp thực tế nơi mọi thứ không chỉ là “chạy được”, mà phải **chạy ổn định, an toàn, đạt các TIÊU CHUẨN CÔNG NGHIỆP và bàn giao được**.
 Repository này được tạo ra để chia sẻ những gì chúng tôi đã áp dụng ngoài hiện trường, không phải lý thuyết trên lớp.
 
 Nếu bạn đang:
