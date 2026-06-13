@@ -210,8 +210,7 @@ Nếu START bị thả trước khi Timer hoàn tất:
 
 # 🪜 Ladder Logic
 
-
-<img width="875" height="442" alt="image" src="https://github.com/user-attachments/assets/fc16eb0d-18df-4c67-bd7d-991473ba94fc" />
+<img width="932" height="1080" alt="image" src="https://github.com/user-attachments/assets/5f36c1bb-d177-4982-86c3-6e78028b2075" />
 
 ---
 
