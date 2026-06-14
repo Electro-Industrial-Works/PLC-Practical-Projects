@@ -58,7 +58,7 @@ Hệ thống hoạt động như sau:
 
 | Điều kiện                | Hoạt động           |
 | ------------------------ | ------------------- |
-| START + STOP cùng hợp lệ | Kích hoạt Timer T37 |
+| START-1 + START-2 hợp lệ | Kích hoạt Timer T37 |
 | Giữ đủ thời gian         | Set RUN_LATCH       |
 | RUN_LATCH = 1            | Bật Q0.0            |
 | Nhấn STOP                | Reset RUN_LATCH     |
@@ -71,7 +71,8 @@ Hệ thống hoạt động như sau:
 
 | Thiết bị          | Địa chỉ | Loại       |
 | ----------------- | ------- | ---------- |
-| START Push Button | I0.0    | NO         |
+| START1 PB         | I0.0    | NO         |
+| START2 Push Butt  | I0.1    | NC         |
 | STOP Push Button  | I0.1    | NC         |
 | TON Timer         | T37     | TON        |
 | RUN Latch         | M0.0    | Memory Bit |
@@ -84,120 +85,85 @@ Hệ thống hoạt động như sau:
 
 # 🔄 Nguyên lý hoạt động (Operating Principle)
 
-## 1️⃣ Điều kiện Timer bắt đầu đếm
+# Nguyên lý hoạt động
+# 1. Khởi động Timer
 
-Khi:
+Timer TON T37 chỉ hoạt động khi:
 
-* START = 1
-* STOP = 1
+START-1 (I0.0) = ON
+START-2 (I0.1) = ON
+STOP NC (I0.2) = ON
 
-→ PLC kích hoạt Timer T37.
+Khi đủ điều kiện:
 
-Preset time:
+I0.0 AND I0.1 AND I0.2
 
-```text
-PT = VW120
-```
+PLC bắt đầu đếm thời gian với giá trị PT lấy từ VW120.
 
-Giá trị này có thể thay đổi từ HMI.
+Ví dụ:
 
----
+VW120 = 50
+→ PT = 5.0 giây
+# 2. Kích hoạt RUN Latch
 
-## 2️⃣ Timer đếm thời gian
+Khi Timer đếm xong:
 
-Timer TON bắt đầu đếm:
-
-* ET tăng dần
-* Khi ET đạt PT
-  → T37 = 1
-
----
-
-## 3️⃣ Đủ thời gian → Set RUN Latch
-
-Khi:
-
-```text
 T37 = 1
-```
 
-→ PLC Set:
+PLC sẽ:
 
-```text
-M0.0
-```
+SET M0.0
 
-RUN_LATCH sẽ:
+Bit M0.0 giữ trạng thái RUN cho hệ thống.
 
-* bật Q0.0
-* giữ trạng thái RUN
+# 3. Điều khiển thiết bị
 
----
+Khi:
 
-## 4️⃣ STOP Reset hệ thống
+M0.0 = 1
 
-Nếu STOP bị nhấn:
+PLC bật:
 
-```text
-I0.1 = 0
-```
+Q0.0 = ON
 
-→ PLC Reset:
+Thiết bị sẽ tiếp tục chạy ngay cả khi người vận hành thả nút START.
 
-```text
-M0.0
-```
+# 4. Dừng hệ thống
 
-→ Q0.0 OFF ngay lập tức.
+Khi nhấn STOP:
 
-⚠ STOP luôn có ưu tiên cao nhất.
+I0.2 = 0
 
----
+PLC:
 
-## 5️⃣ Đèn nháy báo Countdown
+RESET M0.0
+
+Kết quả:
+
+Q0.0 OFF
+hệ thống dừng
+# 5. Đèn Countdown
 
 Trong lúc Timer đang đếm:
 
-* IN = 1
-* T37 = 0
+NOT T37
 
-PLC bật đèn nháy:
+đèn Q0.1 sẽ nhấp nháy theo xung clock SM0.5:
 
-```text
 Q0.1 = SM0.5 AND IN AND NOT T37
-```
 
-Trong đó:
+Mục đích:
 
-| Bit hệ thống | Ý nghĩa    |
-| ------------ | ---------- |
-| SM0.5        | Clock 1 Hz |
-
-✅ Đèn nháy giúp người vận hành biết:
-
-> “Hệ thống đang đếm thời gian.”
-
----
-
-## 6️⃣ Thả START trước thời gian
-
-Nếu START bị thả trước khi Timer hoàn tất:
-
-* Timer reset ngay
-* T37 = 0
-* M0.0 không được Set
-
-→ Hệ thống không latch.
-
-✅ Giúp tránh kích hoạt ngoài ý muốn.
-
+báo hiệu hệ thống đang countdown
+cảnh báo người vận hành
 ---
 
 # 🧩 Bảng I/O và vùng nhớ sử dụng
 
 | Tên biến       | Địa chỉ | Kiểu       | Ghi chú       |
 | -------------- | ------- | ---------- | ------------- |
-| PB_START       | I0.0    | BOOL       | Nút START     |
+| PB_START-1     | I0.0    | BOOL       | Nút START1    |
+| PB_START-2     | I0.0    | BOOL       | Nút START2    |
 | PB_STOP_NC     | I0.1    | BOOL       | Nút STOP NC   |
 | RUN_LATCH      | M0.0    | BOOL       | Giữ RUN       |
 | T_ON_DELAY     | T37     | TON        | Delay ON      |
@@ -205,6 +171,7 @@ Nếu START bị thả trước khi Timer hoàn tất:
 | DEVICE_OUT     | Q0.0    | BOOL       | Output Device |
 | COUNTDOWN_LAMP | Q0.1    | BOOL       | Đèn countdown |
 | CLOCK_1HZ      | SM0.5   | System Bit | Nháy 1 Hz     |
+
 
 ---
 
